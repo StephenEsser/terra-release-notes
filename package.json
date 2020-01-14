@@ -1,0 +1,21 @@
+{
+  "name": "terra-release-notes",
+  "version": "1.0.0",
+  "description": "A static compilation of terra release notes",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Testing....\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StephenEsser/terra-release-notes.git"
+  },
+  "author": "StephenEsser",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StephenEsser/terra-release-notes/issues"
+  },
+  "homepage": "https://github.com/StephenEsser/terra-release-notes#readme"
+}
