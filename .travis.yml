@@ -1,2 +1,11 @@
 language: node_js
+sudo: false
 cache: false
+branches:
+  only:
+  - master
+script:
+- npm run build
+- npm test
+after_success:
+- bash ./scripts/deploy.sh

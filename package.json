@@ -6,7 +6,8 @@
   "dependencies": {},
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Testing....\""
+    "build": "echo \"Build...\"",
+    "test": "echo \"Testing...\""
   },
   "repository": {
     "type": "git",
