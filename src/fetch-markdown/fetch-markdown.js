@@ -1,5 +1,7 @@
 import catalog from './catalog.json';
 
+const RELEASE_REGEX = /^[0-9]+.[0-9]+.[0-9]+\s-\s\(.*\)$/;
+
 class Markdown {
   /**
    * Retrieves the changelog url.
@@ -20,7 +22,7 @@ class Markdown {
 
     const logs = Object.keys(repos).reduce((arr, repo) => (
       arr.concat(repos[repo].map((component) => (
-        Markdown.fetchChangelog(Markdown.changelogURL(repo, component))
+        Markdown.fetchChangelog(Markdown.changelogURL(repo, component)).then((text) => ({ repo, component, text }))
       )))
     ), []);
 
@@ -45,7 +47,50 @@ class Markdown {
   static generateMarkdown() {
     const logs = Markdown.logs();
 
-    return Promise.all(logs).then((results) => results.join('\n'));
+    return Promise.all(logs).then(Markdown.format);
+  }
+
+  static format(logs) {
+    let releases = {};
+    let markdown = '# Terra Release Notes\n';
+
+    for (let index = 0; index < logs.length; index += 1) {
+      const { component, text } = logs[index];
+
+      const lines = text.split('\n');
+      let currentLine = lines.findIndex((line) => RELEASE_REGEX.test(line));
+
+      let currentDate;
+
+      if (currentLine >= 0) {
+        while (currentLine < lines.length) {
+          const line = lines[currentLine];
+
+          if (RELEASE_REGEX.test(line)) {
+            const version = line.split(' -')[0];
+            currentDate = line.substring(line.indexOf('(') + 1, line.indexOf(')'));
+
+            if (releases[currentDate] === undefined) {
+              releases[currentDate] = `## ${currentDate}\n`;
+            }
+
+            releases[currentDate] += `### ${component} - ${version}\n`;
+          } else if (line.indexOf('----') < 0) {
+            releases[currentDate] += line.indexOf('#') === 0 ? `#${line}\n` : `${line}\n`;
+          }
+
+          currentLine += 1;
+        }
+      }
+    }
+
+    const sortedMarkdown = Object.keys(releases).sort((a, b) => () => new Date(a) - new Date(b));
+
+    for (let index = 0; index < 5; index += 1) {
+      markdown += releases[sortedMarkdown[index]];
+    }
+
+    return markdown;
   }
 }
 
