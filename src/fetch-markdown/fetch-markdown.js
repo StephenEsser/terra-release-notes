@@ -37,7 +37,7 @@ class Markdown {
   static fetchChangelog(url) {
     return fetch(url)
       .then((response) => response.text().then((text) => text))
-      .catch((error) => { console.log(error); })
+      .catch((error) => { console.log(error); });
   }
 
   /**
@@ -51,7 +51,7 @@ class Markdown {
   }
 
   static format(logs) {
-    let releases = {};
+    const releases = {};
     let markdown = '# Terra Release Notes\n';
 
     for (let index = 0; index < logs.length; index += 1) {

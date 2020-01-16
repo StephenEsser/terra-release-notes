@@ -12,7 +12,7 @@ const ReleaseNotes = () => {
   useEffect(() => {
     fetchMarkdown().then((text) => {
       setMarkdown(marked(text));
-    })
+    });
   }, []);
 
   if (markdown) {
@@ -23,8 +23,7 @@ const ReleaseNotes = () => {
     <div className={cx('loading')}>
       Loading release notes...
     </div>
-  )
-
+  );
 };
 
 export default ReleaseNotes;

@@ -5,35 +5,54 @@
   "private": true,
   "homepage": "https://stephenesser.github.io/terra-release-notes",
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.4.0",
-    "@testing-library/user-event": "^7.2.1",
     "classnames": "^2.2.6",
     "marked": "^0.8.0",
     "node-sass": "^4.13.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.0"
+    "react-intl": "^2.8.0",
+    "react-scripts": "3.3.0",
+    "terra-base": "^5.25.0",
+    "terra-content-container": "^3.22.0",
+    "terra-paginator": "^2.35.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "@testing-library/user-event": "^7.2.1",
+    "browserslist-config-terra": "^1.3.0",
+    "eslint": "^6.8.0",
+    "eslint-config-terra": "^3.2.0",
+    "stylelint": "^13.0.0",
+    "stylelint-config-terra": "^3.2.0",
+    "terra-aggregate-translations": "^1.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --passWithNoTests",
-    "eject": "react-scripts eject"
+    "lint": "npm run lint:scss && npm run lint:js",
+    "lint:js": "eslint --ext .js,.jsx .",
+    "lint:scss": "stylelint src/**/*.scss",
+    "eject": "react-scripts eject",
+    "clean": "rm -rf node_modules && rm -rf build",
+    "clean:install": "npm run clean && npm install",
+    "postinstall": "npm run aggregate-translations",
+    "aggregate-translations": "tt-aggregate-translations -b ./ -d ./src/**/translations -d ./translations -o ./node_modules/terra-i18n/node_modules -f es6"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "terra",
+    "parser": "babel-eslint",
+    "rules": {
+      "compat/compat": "off",
+      "react/forbid-prop-types": "off",
+      "object-curly-newline": "off"
+    }
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "stylelint": {
+    "extends": "stylelint-config-terra"
+  },
+  "browserslist": [
+    "extends browserslist-config-terra"
+  ]
 }
