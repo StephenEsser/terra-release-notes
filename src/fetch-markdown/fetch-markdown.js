@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import catalog from './catalog.json';
 
 class ReleaseNotes {

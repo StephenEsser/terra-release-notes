@@ -59,7 +59,7 @@
       "terra-visually-hidden-text"
     ],
     "terra-framework": [
-      "terra-abstract-model",
+      "terra-abstract-modal",
       "terra-aggregator",
       "terra-application-header-layout",
       "terra-application-layout",
