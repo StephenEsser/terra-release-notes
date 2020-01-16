@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import marked from 'marked';
 import classNames from 'classnames/bind';
-import releaseNotes from './ReleaseNotes.md';
+import fetchMarkdown from '../fetch-markdown/fetch-markdown';
 import styles from './ReleaseNotes.module.scss';
 
 const cx = classNames.bind(styles);
@@ -10,7 +10,7 @@ const ReleaseNotes = () => {
   const [markdown, setMarkdown] = useState();
 
   useEffect(() => {
-    fetch(releaseNotes).then(response => response.text()).then((text) => {
+    fetchMarkdown().then((text) => {
       setMarkdown(marked(text));
     })
   }, []);

@@ -1,9 +1,5 @@
-const fs = require('fs');
-const fetch = require('node-fetch');
-const catalog = require('./catalog.json');
-
-const ROOT_DIR = process.cwd();
-const MARKDOWN_FILE = `${ROOT_DIR}/src/release-notes/ReleaseNotes.md`;
+import fetch from 'node-fetch';
+import catalog from './catalog.json';
 
 class ReleaseNotes {
   /**
@@ -12,7 +8,7 @@ class ReleaseNotes {
    * @param {string} component - The component to fetch the changelog for.
    */
   static resource(repo, component) {
-    return `https://github.com/cerner/${repo}/blob/master/packages/${component}/CHANGELOG.md?raw=true`;
+    return `https://raw.githubusercontent.com/cerner/${repo}/master/packages/${component}/CHANGELOG.md`;
   }
 
   /**
@@ -49,18 +45,10 @@ class ReleaseNotes {
       promises.push(ReleaseNotes.fetchChangelog(logs[index]));
     }
 
-    return Promise.all(promises).then((result) => {
-      ReleaseNotes.writeMarkdown(result)
+    return Promise.all(promises).then((results) => {
+      return results.join('\n');
     });
-  }
-
-  /**
-   * Writes the markdown file.
-   * @param {string} markdown - The generated markdown.
-   */
-  static writeMarkdown(markdown) {
-    fs.writeFileSync(MARKDOWN_FILE, markdown);
   }
 }
 
-ReleaseNotes.generateMarkdown();
+export default ReleaseNotes.generateMarkdown;
