@@ -16,7 +16,7 @@ const ReleaseNotes = () => {
   }, []);
 
   if (markdown) {
-    return <div className={cx('release-notes', 'markdown-body')} dangerouslySetInnerHTML={{ __html: markdown }} />;
+    return <div className={cx('markdown-body')} dangerouslySetInnerHTML={{ __html: markdown }} />;
   }
 
   return (
