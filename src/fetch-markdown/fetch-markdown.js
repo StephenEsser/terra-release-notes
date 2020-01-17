@@ -71,12 +71,12 @@ class Markdown {
             currentDate = line.substring(line.indexOf('(') + 1, line.indexOf(')'));
 
             if (releases[currentDate] === undefined) {
-              releases[currentDate] = `## ${currentDate}\n`;
+              releases[currentDate] = `# ${currentDate}\n`;
             }
 
-            releases[currentDate] += `### ${component} - ${version}\n`;
+            releases[currentDate] += `## ${component} (${version})\n`;
           } else if (line.indexOf('----') < 0) {
-            releases[currentDate] += line.indexOf('#') === 0 ? `#${line}\n` : `${line}\n`;
+            releases[currentDate] += `${line}\n`;
           }
 
           currentLine += 1;
