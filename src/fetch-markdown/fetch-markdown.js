@@ -84,7 +84,7 @@ class Markdown {
       }
     }
 
-    return Object.keys(releases).sort((a, b) => Date.parse(a) - Date.parse(b)).reverse().map((date) => marked(releases[date]));
+    return Object.keys(releases).sort((a, b) => new Date(b) - new Date(a)).map((date) => marked(releases[date]));
   }
 }
 
