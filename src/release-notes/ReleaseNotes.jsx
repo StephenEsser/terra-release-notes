@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import classNames from 'classnames/bind';
 import ContentContainer from 'terra-content-container';
 import Paginator from 'terra-paginator/lib/ControlledPaginator';
@@ -10,6 +10,7 @@ const cx = classNames.bind(styles);
 
 const ReleaseNotes = () => {
   const markdown = useRef();
+  const scroll = useRef();
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -19,9 +20,15 @@ const ReleaseNotes = () => {
     });
   }, []);
 
+  useLayoutEffect(() => {
+    // Reset the scroll position when changing pages.
+    scroll.current.scrollTop = 0;
+  });
+
   return (
     <ContentContainer
       fill
+      scrollRefCallback={(ref) => { scroll.current = ref; }}
       className={cx('release-notes', 'markdown-body')}
       header={<h1 className={cx('header')}>Terra Release Notes</h1>}
       footer={(
