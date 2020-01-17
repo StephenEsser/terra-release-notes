@@ -1,3 +1,4 @@
+import marked from 'marked';
 import catalog from './catalog.json';
 
 const RELEASE_REGEX = /^[0-9]+.[0-9]+.[0-9]+\s-\s\(.*\)$/;
@@ -52,7 +53,6 @@ class Markdown {
 
   static format(logs) {
     const releases = {};
-    let markdown = '# Terra Release Notes\n';
 
     for (let index = 0; index < logs.length; index += 1) {
       const { component, text } = logs[index];
@@ -84,13 +84,7 @@ class Markdown {
       }
     }
 
-    const sortedMarkdown = Object.keys(releases).sort((a, b) => () => new Date(a) - new Date(b));
-
-    for (let index = 0; index < 5; index += 1) {
-      markdown += releases[sortedMarkdown[index]];
-    }
-
-    return markdown;
+    return Object.keys(releases).sort((a, b) => Date.parse(a) - Date.parse(b)).reverse().map((date) => marked(releases[date]));
   }
 }
 
