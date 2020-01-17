@@ -5,15 +5,6 @@
 
 
 :local {
-  .release-notes {
-    border: 1px solid rgb(221, 221, 221);
-    border-radius: 3px;
-    box-sizing: border-box;
-    margin: 0 auto;
-    max-width: 980px;
-    min-width: 200px;
-  }
-
   .footer {
     border-top: 1px solid rgb(221, 221, 221);
     padding: 5px;
@@ -35,9 +26,12 @@
   }
 
   .markdown-body {
-    min-width: 200px;
-    max-width: 980px;
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 3px;
+    box-sizing: border-box;
     margin: 0 auto;
+    max-width: 980px;
+    min-width: 200px;
     padding: 0 45px 0 45px;
   }
 
