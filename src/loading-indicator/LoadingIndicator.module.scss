@@ -1,8 +1,14 @@
 :local {
   .loading {
-    font-size: 1.5rem;
-    margin: 0 auto;
-    padding: 45px;
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
     text-align: center;
+  }
+
+  .message {
+    display: block;
+    font-size: 1.5rem;
   }
 }
