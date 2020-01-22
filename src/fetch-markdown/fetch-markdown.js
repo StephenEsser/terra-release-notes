@@ -6,28 +6,49 @@ const RELEASE_REGEX = /^[0-9]+.[0-9]+.[0-9]+\s-\s\(.*\)$/;
 class Markdown {
   /**
    * Retrieves the changelog url.
-   * @param {string} repo - The terra repo. One of terra-core, terra-clinical, or terra-framework.
+   * Note: Passing a repo and a component assumes monorepo directory structure.
+   * @param {string} repo - The repo.
    * @param {string} component - The component to fetch the changelog for.
    * @returns {string} - A URL to the changelog.
    */
   static changelogURL(repo, component) {
-    return `https://raw.githubusercontent.com/cerner/${repo}/master/packages/${component}/CHANGELOG.md`;
+    if (component) {
+      return `https://raw.githubusercontent.com/cerner/${repo}/master/packages/${component}/CHANGELOG.md`;
+    }
+
+    return `https://raw.githubusercontent.com/cerner/${repo}/master/CHANGELOG.md`;
   }
 
   /**
-   * Retrieves all change logs defined in the catalog.
-   * @returns {array<Promise>} - An array of promises.
+   * Retrieves all changelogs for the packages defined in the catalog.
+   * @returns {array<Promise>} - An array of promises that resolve with the raw markdown text of the changelog.
    */
-  static logs() {
-    const { repos } = catalog;
+  static changelogs() {
+    const { monorepos, repos } = catalog;
 
-    const logs = Object.keys(repos).reduce((arr, repo) => (
-      arr.concat(repos[repo].map((component) => (
-        Markdown.fetchChangelog(Markdown.changelogURL(repo, component)).then((text) => ({ repo, component, text }))
-      )))
-    ), []);
+    const changelogs = [];
 
-    return logs;
+    // Iterate the monorepo component changelogs.
+    Object.keys(monorepos).forEach((repo) => {
+      const logs = monorepos[repo].map((component) => (
+        { repo, component, url: Markdown.changelogURL(repo, component) }
+      ));
+
+      changelogs.push(...logs);
+    });
+
+    // Iterate the individual project changelogs.
+    for (let index = 0; index < repos.length; index += 1) {
+      const repo = repos[index];
+
+      changelogs.push({ repo, component: repo, url: Markdown.changelogURL(repo) });
+    }
+
+    const promises = changelogs.map(({ repo, component, url }) => (
+      Markdown.fetchChangelog(url).then((changelog) => ({ repo, component, changelog }))
+    ));
+
+    return Promise.all(promises);
   }
 
   /**
@@ -46,18 +67,16 @@ class Markdown {
    * @returns {string} - The generated markdown.
    */
   static generateMarkdown() {
-    const logs = Markdown.logs();
-
-    return Promise.all(logs).then(Markdown.format);
+    return Markdown.changelogs().then(Markdown.format);
   }
 
-  static format(logs) {
+  static format(changelogs) {
     const releases = {};
 
-    for (let index = 0; index < logs.length; index += 1) {
-      const { component, text } = logs[index];
+    for (let index = 0; index < changelogs.length; index += 1) {
+      const { component, changelog } = changelogs[index];
 
-      const lines = text.split('\n');
+      const lines = changelog.split('\n');
       let currentLine = lines.findIndex((line) => RELEASE_REGEX.test(line));
 
       let currentDate;

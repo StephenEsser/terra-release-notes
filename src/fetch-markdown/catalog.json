@@ -1,5 +1,5 @@
 {
-  "repos": {
+  "monorepos": {
     "terra-core": [
       "terra-action-footer",
       "terra-action-header",
@@ -103,5 +103,12 @@
       "terra-clinical-label-value-view",
       "terra-clinical-onset-picker"
     ]
-  }
+  },
+  "repos": [
+    "terra-toolkit",
+    "terra-dev-site",
+    "terra-aggregate-translations",
+    "eslint-config-terra",
+    "stylelint-config-terra"
+  ]
 }
