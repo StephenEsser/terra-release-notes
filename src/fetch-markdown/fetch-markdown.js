@@ -90,7 +90,7 @@ class Markdown {
         if (RELEASE_REGEX.test(line)) {
           const version = line.split(' -')[0];
 
-          currentDate = line.substring(line.indexOf('(') + 1, line.indexOf(')'));
+          currentDate = Markdown.formatDate(line);
 
           // Create a release date entry if one does not already exist.
           if (releases[currentDate] === undefined) {
@@ -110,6 +110,20 @@ class Markdown {
 
     // Sort the releases by date and compile them into renderable html markdown.
     return Object.keys(releases).sort((a, b) => (new Date(b) - new Date(a))).map((date) => marked(releases[date]));
+  }
+
+  /**
+   * Parses and formats a date from a changelog release entry.
+   * @param {string} string - A released changelog entry string.
+   * @returns {string} - A valid date string.
+   */
+  static formatDate(string) {
+    const date = string.substring(string.indexOf('(') + 1, string.indexOf(')'));
+
+    const [month, day, year] = date.split(' ');
+
+    // A few changelog dates are formatted incorrectly. Strip any day modifiers. (nd and th) 2nd, 4th, etc..
+    return `${month} ${day.replace(/\D/g, '')}, ${year}`;
   }
 }
 
