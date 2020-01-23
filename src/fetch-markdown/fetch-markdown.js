@@ -121,7 +121,7 @@ class Markdown {
     const date = string.substring(string.indexOf('(') + 1, string.indexOf(')'));
 
     // Check if the date is valid without any alterations.
-    if (Date(date).indexOf('Invalid') === -1) {
+    if (`${new Date(date)}` !== 'Invalid Date' && !Number.isNaN(new Date(date))) {
       return date;
     }
 
