@@ -120,6 +120,11 @@ class Markdown {
   static formatDate(string) {
     const date = string.substring(string.indexOf('(') + 1, string.indexOf(')'));
 
+    // Check if the date is valid without any alterations.
+    if (Date(date).indexOf('Invalid') === -1) {
+      return date;
+    }
+
     const [month, day, year] = date.split(' ');
 
     // A few changelog dates are formatted incorrectly. Strip any day modifiers. (nd and th) 2nd, 4th, etc..
