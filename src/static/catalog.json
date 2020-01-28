@@ -109,6 +109,8 @@
     "terra-dev-site",
     "terra-aggregate-translations",
     "eslint-config-terra",
-    "stylelint-config-terra"
+    "stylelint-config-terra",
+    "browserslist-config-terra",
+    "generator-terra-module"
   ]
 }
