@@ -1,9 +1,10 @@
-import marked from 'marked';
-import catalog from './catalog.json';
+/* eslint-disable import/no-extraneous-dependencies */
+const fetch = require('node-fetch');
+const catalog = require('../../src/static/catalog.json');
 
 const RELEASE_REGEX = /^[0-9]+.[0-9]+.[0-9]+\s-\s\(.*\)$/;
 
-class Markdown {
+class Changelog {
   /**
    * Retrieves the changelog url.
    * Note: Passing a repo and a component assumes monorepo directory structure.
@@ -31,7 +32,7 @@ class Markdown {
     // Iterate the monorepo component changelogs.
     Object.keys(monorepos).forEach((repo) => {
       const logs = monorepos[repo].map((component) => (
-        { repo, component, url: Markdown.changelogURL(repo, component) }
+        { repo, component, url: Changelog.changelogURL(repo, component) }
       ));
 
       changelogs.push(...logs);
@@ -39,11 +40,11 @@ class Markdown {
 
     // Iterate the individual project changelogs.
     for (let index = 0; index < repos.length; index += 1) {
-      changelogs.push({ repo: repos[index], url: Markdown.changelogURL(repos[index]) });
+      changelogs.push({ repo: repos[index], url: Changelog.changelogURL(repos[index]) });
     }
 
     const promises = changelogs.map(({ repo, component, url }) => (
-      Markdown.fetchChangelog(url).then((changelog) => ({ repo, component, changelog }))
+      Changelog.fetchChangelog(url).then((changelog) => ({ repo, component, changelog }))
     ));
 
     return Promise.all(promises);
@@ -61,11 +62,11 @@ class Markdown {
   }
 
   /**
-   * Generates release notes markdown.
-   * @returns {string} - The generated markdown.
+   * Generates changelog release notes by date.
+   * @returns {string} - The generated release notes.
    */
-  static generateMarkdown() {
-    return Markdown.changelogs().then(Markdown.format);
+  static generateReleases() {
+    return Changelog.changelogs().then(Changelog.format);
   }
 
   /**
@@ -90,7 +91,7 @@ class Markdown {
         if (RELEASE_REGEX.test(line)) {
           const version = line.split(' -')[0];
 
-          currentDate = Markdown.formatDate(line);
+          currentDate = Changelog.formatDate(line);
 
           // Create a release date entry if one does not already exist.
           if (releases[currentDate] === undefined) {
@@ -108,8 +109,8 @@ class Markdown {
       }
     }
 
-    // Sort the releases by date and compile them into renderable html markdown.
-    return Object.keys(releases).sort((a, b) => (new Date(b) - new Date(a))).map((date) => marked(releases[date]));
+    // Sort the releases by date.
+    return Object.keys(releases).sort((a, b) => (new Date(b) - new Date(a))).map((date) => releases[date]);
   }
 
   /**
@@ -132,4 +133,4 @@ class Markdown {
   }
 }
 
-export default Markdown.generateMarkdown;
+module.exports = Changelog;

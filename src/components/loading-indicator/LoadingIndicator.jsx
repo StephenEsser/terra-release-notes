@@ -10,7 +10,7 @@ const LoadingIndicator = () => (
     <div>
       <IconSpinner className={cx('spinner')} isSpin height="36" width="36" />
       <span className={cx('message')}>
-      Loading release notes...
+        Loading release notes...
       </span>
     </div>
   </div>

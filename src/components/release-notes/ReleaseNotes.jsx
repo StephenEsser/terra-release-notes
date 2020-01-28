@@ -1,24 +1,16 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
+import marked from 'marked';
 import classNames from 'classnames/bind';
 import ContentContainer from 'terra-content-container';
 import Paginator from 'terra-paginator/lib/ControlledPaginator';
-import LoadingIndicator from '../loading-indicator/LoadingIndicator';
-import fetchMarkdown from '../fetch-markdown/fetch-markdown';
+import releases from '../../static/releases.json';
 import styles from './ReleaseNotes.module.scss';
 
 const cx = classNames.bind(styles);
 
 const ReleaseNotes = () => {
-  const markdown = useRef();
   const scroll = useRef();
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    fetchMarkdown().then((result) => {
-      markdown.current = result;
-      setIndex(1);
-    });
-  }, []);
+  const [index, setIndex] = useState(1);
 
   useLayoutEffect(() => {
     // Reset the scroll position when changing pages.
@@ -36,14 +28,13 @@ const ReleaseNotes = () => {
           <Paginator
             onPageChange={setIndex}
             selectedPage={index}
-            totalCount={markdown.current ? markdown.current.length : 0}
+            totalCount={releases.length}
             itemCountPerPage={1}
           />
         </div>
       )}
     >
-      {markdown.current && <div dangerouslySetInnerHTML={{ __html: markdown.current[index - 1] }} />}
-      {!markdown.current && <LoadingIndicator />}
+      <div dangerouslySetInnerHTML={{ __html: marked(releases[index - 1]) }} />
     </ContentContainer>
   );
 };
