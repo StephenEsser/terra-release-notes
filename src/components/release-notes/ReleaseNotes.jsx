@@ -12,6 +12,8 @@ const ReleaseNotes = () => {
   const scroll = useRef();
   const [index, setIndex] = useState(1);
 
+  const { date, notes } = releases[index - 1];
+
   useLayoutEffect(() => {
     // Reset the scroll position when changing pages.
     scroll.current.scrollTop = 0;
@@ -22,7 +24,13 @@ const ReleaseNotes = () => {
       fill
       scrollRefCallback={(ref) => { scroll.current = ref; }}
       className={cx('release-notes', 'markdown-body')}
-      header={<h1 className={cx('header')}>Terra Release Notes</h1>}
+      header={(
+        <h1 className={cx('header')}>
+          Terra Release Notes -
+          {' '}
+          {date}
+        </h1>
+      )}
       footer={(
         <div className={cx('footer')}>
           <Paginator
@@ -34,7 +42,7 @@ const ReleaseNotes = () => {
         </div>
       )}
     >
-      <div dangerouslySetInnerHTML={{ __html: marked(releases[index - 1]) }} />
+      <div dangerouslySetInnerHTML={{ __html: marked(notes) }} />
     </ContentContainer>
   );
 };

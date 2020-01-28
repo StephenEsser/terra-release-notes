@@ -95,7 +95,7 @@ class Changelog {
 
           // Create a release date entry if one does not already exist.
           if (releases[currentDate] === undefined) {
-            releases[currentDate] = `# ${currentDate}\n`;
+            releases[currentDate] = '';
           }
 
           // Append the component release information.
@@ -110,7 +110,7 @@ class Changelog {
     }
 
     // Sort the releases by date.
-    return Object.keys(releases).sort((a, b) => (new Date(b) - new Date(a))).map((date) => releases[date]);
+    return Object.keys(releases).sort((a, b) => (new Date(b) - new Date(a))).map((date) => ({ date, notes: releases[date] }));
   }
 
   /**
