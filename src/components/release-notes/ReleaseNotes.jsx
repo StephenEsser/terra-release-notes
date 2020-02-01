@@ -27,7 +27,7 @@ const ReleaseNotes = () => {
       header={(
         <h1>
           {`Terra Release Notes - ${date}`}
-          <a title="Homepage" href="https://github.com/StephenEsser/terra-release-notes" className={cx('homepage')}>
+          <a title="Github Homepage" href="https://github.com/StephenEsser/terra-release-notes" className={cx('homepage')}>
             <img src="GitHub-Mark-32px.png" alt="github" />
           </a>
         </h1>
