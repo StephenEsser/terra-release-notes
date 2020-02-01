@@ -26,9 +26,7 @@ const ReleaseNotes = () => {
       className={cx('release-notes', 'markdown-body')}
       header={(
         <h1>
-          Terra Release Notes -
-          {' '}
-          {date}
+          {`Terra Release Notes - ${date}`}
           <a title="Homepage" href="https://github.com/StephenEsser/terra-release-notes" className={cx('homepage')}>
             <img src="GitHub-Mark-32px.png" alt="github" />
           </a>
