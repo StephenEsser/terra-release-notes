@@ -25,10 +25,13 @@ const ReleaseNotes = () => {
       scrollRefCallback={(ref) => { scroll.current = ref; }}
       className={cx('release-notes', 'markdown-body')}
       header={(
-        <h1 className={cx('header')}>
+        <h1>
           Terra Release Notes -
           {' '}
           {date}
+          <a title="Homepage" href="https://github.com/StephenEsser/terra-release-notes" className={cx('homepage')}>
+            <img src="GitHub-Mark-32px.png" alt="github" />
+          </a>
         </h1>
       )}
       footer={(
