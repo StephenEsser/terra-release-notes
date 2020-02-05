@@ -21,6 +21,22 @@ class Changelog {
   }
 
   /**
+   * Retrieves the commit history url for a release.
+   * Note: Passing a repo and a component assumes monorepo directory structure.
+   * @param {string} repo - The repo.
+   * @param {string} component - The component.
+   * @param {string} tag - The released version tag.
+   * @returns {string} - A URL to the commit history of the release for the provided tag.
+   */
+  static history(repo, component, tag) {
+    if (component) {
+      return `https://github.com/cerner/${repo}/commits/${component}%40${tag}/packages/${component}/`;
+    }
+
+    return `https://github.com/cerner/${repo}/commits/v${tag}/`;
+  }
+
+  /**
    * Retrieves all changelogs for the packages defined in the catalog.
    * @returns {array<Promise>} - An array of promises that resolve with the raw markdown text of the changelog.
    */
@@ -99,7 +115,7 @@ class Changelog {
           }
 
           // Append the component release information.
-          releases[currentDate] += `## ${component || repo} (${version})\n`;
+          releases[currentDate] += `## ${component || repo} ([${version}](${Changelog.history(repo, component, version)}))\n`;
           currentLine += 1; // Release entries are followed by a horizontal rule. Skip it.
         } else if (currentDate) {
           releases[currentDate] += `${line}\n`;
