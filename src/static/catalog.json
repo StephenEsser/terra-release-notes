@@ -106,6 +106,7 @@
     ]
   },
   "repos": [
+    "terra-application",
     "terra-toolkit",
     "terra-dev-site",
     "terra-aggregate-translations",
