@@ -2,7 +2,7 @@
 const fetch = require('node-fetch');
 const catalog = require('../../src/static/catalog.json');
 
-const RELEASE_REGEX = /^[0-9]+.[0-9]+.[0-9]+\s-\s\(.*\)$/;
+const RELEASE_REGEX = /^[0-9]+.[0-9]+.[0-9]+\s+-\s+\(.*\)$/;
 
 class Changelog {
   /**
@@ -86,9 +86,9 @@ class Changelog {
   }
 
   /**
-   * Splices an array of changelog into formatted markdown files sorted by date.
+   * Splices an array of changelogs into formatted release notes sorted by date.
    * @param {array<Object>} changelogs - An array of changelogs.
-   * @returns {array} - An array of markdown files sorted by date.
+   * @returns {array} - An array of sorted release notes.
    */
   static format(changelogs) {
     const releases = {};
@@ -100,25 +100,44 @@ class Changelog {
 
       let currentDate;
       let currentLine = 0;
+      let currentSection;
 
       while (currentLine < lines.length) {
-        const line = lines[currentLine];
+        const line = lines[currentLine].trim();
 
-        if (RELEASE_REGEX.test(line)) {
+        if (line.indexOf('-----') >= 0 || line.length === 0) {
+          // Skip horizontal markdown lines.
+        } else if (RELEASE_REGEX.test(line)) {
           const version = line.split(' -')[0];
 
           currentDate = Changelog.formatDate(line);
+          currentSection = undefined; // Clear the current section.
 
           // Create a release date entry if one does not already exist.
           if (releases[currentDate] === undefined) {
-            releases[currentDate] = '';
+            releases[currentDate] = {};
           }
 
           // Append the component release information.
-          releases[currentDate] += `## ${component || repo} ([${version}](${Changelog.history(repo, component, version)}))\n`;
-          currentLine += 1; // Release entries are followed by a horizontal rule. Skip it.
-        } else if (currentDate) {
-          releases[currentDate] += `${line}\n`;
+          releases[currentDate][component || repo] = {
+            component,
+            link: Changelog.history(repo, component, version),
+            notes: {},
+            repo,
+            version,
+          };
+        } else if (currentDate && line.indexOf('#') === 0) {
+          currentSection = line.replace(/#/gi, '').trim();
+          releases[currentDate][component || repo].notes[currentSection] = [];
+        } else if (currentDate && line.length > 0) {
+          // Default a section if necessary. Sometimes developers forget to add one to the changelog.
+          if (!currentSection) {
+            currentSection = 'Changed';
+            releases[currentDate][component || repo].notes[currentSection] = [];
+          }
+
+          const trimmedLine = line.replace(/^\*|-/, '').trim();
+          releases[currentDate][component || repo].notes[currentSection].push(trimmedLine);
         }
 
         currentLine += 1;
@@ -126,7 +145,9 @@ class Changelog {
     }
 
     // Sort the releases by date.
-    return Object.keys(releases).sort((a, b) => (new Date(b) - new Date(a))).map((date) => ({ date, notes: releases[date] }));
+    return Object.keys(releases)
+      .sort((a, b) => (new Date(b) - new Date(a)))
+      .map((date) => ({ date, notes: Object.keys(releases[date]).sort().map((key) => releases[date][key]) }));
   }
 
   /**
