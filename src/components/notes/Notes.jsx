@@ -34,8 +34,10 @@ const Notes = (props) => {
   const releaseNotes = Object.keys(notes).map((heading) => (
     notes[heading].map((note) => (
       <div key={note} className={cx('note')}>
-        <strong>{heading}</strong>
-        <span>{` - ${note}`}</span>
+        <div className={cx('note-container')}>
+          <strong className={cx('heading')}>{heading}</strong>
+          <span>{` - ${note}`}</span>
+        </div>
       </div>
     ))
   ));
@@ -45,7 +47,9 @@ const Notes = (props) => {
       <div className={cx('title')}>
         <a href={link} className={cx('link')}>{`${component || repo} v${version}`}</a>
       </div>
-      {releaseNotes}
+      <div className={cx('release-notes')}>
+        {releaseNotes}
+      </div>
     </div>
   );
 };

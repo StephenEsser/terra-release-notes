@@ -5,17 +5,48 @@
 
   .note {
     font-size: 1.25rem;
-    margin: 0.5rem 0;
+    position: relative;
   }
 
   .note:last-child {
     margin-bottom: 0;
   }
 
+  .note::before {
+    background-color: #e6ebf1;
+    content: '';
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 3px;
+  }
+
+  .note:last-child::before {
+    height: calc(0.714285rem + 3px);
+  }
+
+  .note-container {
+    padding-left: 2rem;
+    position: relative;
+  }
+
   .title {
     font-size: 1.5rem;
     font-weight: 500;
     position: relative;
+  }
+
+  .heading::before {
+    background-color: #e6ebf1;
+    content: '';
+    display: block;
+    height: 3px;
+    left: 0;
+    position: absolute;
+    top: 0.714285rem;
+    width: 1.5rem;
   }
 
   .title::before {
@@ -37,5 +68,10 @@
   .link {
     color: inherit;
     text-decoration: none;
+  }
+
+  .release-notes {
+    padding-left: 1rem;
+    position: relative;
   }
 }
