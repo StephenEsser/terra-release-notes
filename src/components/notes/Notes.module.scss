@@ -1,6 +1,6 @@
 :local {
   .notes:not(:first-child) {
-    padding-top: 1rem;
+    padding-top: 0.5rem;
   }
 
   .note {
@@ -28,6 +28,7 @@
   }
 
   .note-container {
+    line-height: 1.5;
     padding-left: 2rem;
     position: relative;
   }
