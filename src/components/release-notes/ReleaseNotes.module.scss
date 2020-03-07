@@ -16,12 +16,16 @@
   }
 
   .title {
+    display: inline-block;
     font-size: 2rem;
+    font-weight: 400;
     margin-bottom: 1rem;
+    margin-top: 0;
   }
 
   .homepage {
     float: right;
+    font-size: 2rem;
     padding-top: 3px;
   }
 

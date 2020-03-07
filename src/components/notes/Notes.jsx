@@ -34,9 +34,9 @@ const Notes = (props) => {
   const releaseNotes = Object.keys(notes).map((heading) => (
     notes[heading].map((note) => (
       <div key={note} className={cx('note')}>
-        <div className={cx('note-container')}>
+        <div className={cx('message')}>
           <strong className={cx('heading')}>{heading}</strong>
-          <span>{` - ${note}`}</span>
+          <span className={cx('description')}>{` - ${note}`}</span>
         </div>
       </div>
     ))

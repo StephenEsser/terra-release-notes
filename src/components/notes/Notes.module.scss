@@ -27,7 +27,7 @@
     height: calc(0.714285rem + 3px);
   }
 
-  .note-container {
+  .message {
     line-height: 1.5;
     padding-left: 2rem;
     position: relative;
@@ -69,6 +69,10 @@
   .link {
     color: inherit;
     text-decoration: none;
+  }
+
+  .link:hover {
+    text-decoration: underline;
   }
 
   .release-notes {
