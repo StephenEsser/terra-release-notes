@@ -19,3 +19,4 @@ The following repositories are included in the generated release notes.
   - [Stylelint Config Terra](https://github.com/cerner/stylelint-config-terra)
   - [Browserlist Config Terra](https://github.com/cerner/browserslist-config-terra)
   - [Generator Terra Module](https://github.com/cerner/generator-terra-module)
+  - [Terra Enzyme Intl](https://github.com/cerner/terra-enzyme-intl)

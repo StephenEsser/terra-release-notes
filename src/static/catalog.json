@@ -115,6 +115,7 @@
     "eslint-config-terra",
     "stylelint-config-terra",
     "browserslist-config-terra",
-    "generator-terra-module"
+    "generator-terra-module",
+    "terra-enzyme-intl"
   ]
 }
