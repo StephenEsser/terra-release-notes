@@ -92,7 +92,8 @@
       "terra-slide-panel",
       "terra-tabs",
       "terra-theme-provider",
-      "terra-time-input"
+      "terra-time-input",
+      "terra-toolbar"
     ],
     "terra-clinical": [
       "terra-clinical-data-grid",
