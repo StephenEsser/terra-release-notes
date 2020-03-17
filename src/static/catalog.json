@@ -57,7 +57,8 @@
       "terra-toggle-button",
       "terra-toggle-section-header",
       "terra-toggle",
-      "terra-visually-hidden-text"
+      "terra-visually-hidden-text",
+      "terra-toolbar"
     ],
     "terra-framework": [
       "terra-abstract-modal",
@@ -92,8 +93,7 @@
       "terra-slide-panel",
       "terra-tabs",
       "terra-theme-provider",
-      "terra-time-input",
-      "terra-toolbar"
+      "terra-time-input"
     ],
     "terra-clinical": [
       "terra-clinical-data-grid",
