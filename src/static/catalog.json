@@ -109,7 +109,7 @@
   },
   "repos": [
     "terra-application",
-    "terra-toolkit",
+    "terra-toolkit-boneyard",
     "terra-dev-site",
     "terra-aggregate-translations",
     "eslint-config-terra",
