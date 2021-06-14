@@ -1,0 +1,2 @@
+(this["webpackJsonpterra-release-notes"]=this["webpackJsonpterra-release-notes"]||[]).push([[7],{77:function(e,a,s){"use strict";Object.defineProperty(a,"__esModule",{value:!0}),a.messages=a.locale=a.areTranslationsLoaded=void 0;var o,t=s(19),r=s(94),n=(o=r)&&o.__esModule?o:{default:o};(0,t.addLocaleData)(n.default);a.areTranslationsLoaded=!0,a.locale="en",a.messages={"Terra.ajax.error":"This content failed to load.","Terra.icon.IconConsultInstructionsForUse.title":"Electronic Instructions for Use Icon"}}}]);
+//# sourceMappingURL=en-translations.f0f8f294.chunk.js.map
